@@ -19,6 +19,9 @@ from django.urls import path, include
 from rest_framework import routers
 from app.views import DocumentoViewSet, TipoDocumentoPermitidoViewSet
 
+#from DRF-spectacular (documentation)
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 router = routers.DefaultRouter()
 
 router.register(r'documentos', DocumentoViewSet, basename='documento')
@@ -26,5 +29,12 @@ router.register(r'tiposdocumento', TipoDocumentoPermitidoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api', include(router.urls))
+    path('api', include(router.urls)),
+
+    #SCHEMA DRF-Spectacular
+    # Generador de Schema
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Interfaz opcionales para documentación:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

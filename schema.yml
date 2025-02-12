@@ -1,0 +1,413 @@
+openapi: 3.0.3
+info:
+  title: API_DJANGO_BACKEND_G2
+  version: 1.0.0
+  description: Paralelo2, Grupo2
+paths:
+  /apidocumentos/:
+    get:
+      operationId: apidocumentos_list
+      tags:
+      - apidocumentos
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Documento'
+          description: ''
+    post:
+      operationId: apidocumentos_create
+      tags:
+      - apidocumentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+  /apidocumentos/{id}/:
+    get:
+      operationId: apidocumentos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this documento.
+        required: true
+      tags:
+      - apidocumentos
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    put:
+      operationId: apidocumentos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this documento.
+        required: true
+      tags:
+      - apidocumentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    patch:
+      operationId: apidocumentos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this documento.
+        required: true
+      tags:
+      - apidocumentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumento'
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    delete:
+      operationId: apidocumentos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this documento.
+        required: true
+      tags:
+      - apidocumentos
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /apitiposdocumento/:
+    get:
+      operationId: apitiposdocumento_list
+      tags:
+      - apitiposdocumento
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TipoDocumentoPermitido'
+          description: ''
+    post:
+      operationId: apitiposdocumento_create
+      tags:
+      - apitiposdocumento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoDocumentoPermitido'
+          description: ''
+  /apitiposdocumento/{id}/:
+    get:
+      operationId: apitiposdocumento_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this tipo documento permitido.
+        required: true
+      tags:
+      - apitiposdocumento
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoDocumentoPermitido'
+          description: ''
+    put:
+      operationId: apitiposdocumento_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this tipo documento permitido.
+        required: true
+      tags:
+      - apitiposdocumento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TipoDocumentoPermitido'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoDocumentoPermitido'
+          description: ''
+    patch:
+      operationId: apitiposdocumento_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this tipo documento permitido.
+        required: true
+      tags:
+      - apitiposdocumento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTipoDocumentoPermitido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTipoDocumentoPermitido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTipoDocumentoPermitido'
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoDocumentoPermitido'
+          description: ''
+    delete:
+      operationId: apitiposdocumento_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this tipo documento permitido.
+        required: true
+      tags:
+      - apitiposdocumento
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Documento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        archivo:
+          type: string
+          format: uri
+        fecha_subida:
+          type: string
+          format: date-time
+          readOnly: true
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+        usuario:
+          type: integer
+        tipo_documento:
+          type: integer
+      required:
+      - archivo
+      - fecha_subida
+      - id
+      - tipo_documento
+      - usuario
+    EstadoEnum:
+      enum:
+      - PENDIENTE
+      - APROBADO
+      - RECHAZADO
+      type: string
+      description: |-
+        * `PENDIENTE` - Pendiente de revisión
+        * `APROBADO` - aprobado
+        * `RECHAZADO` - rechazado
+    PatchedDocumento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        archivo:
+          type: string
+          format: uri
+        fecha_subida:
+          type: string
+          format: date-time
+          readOnly: true
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+        usuario:
+          type: integer
+        tipo_documento:
+          type: integer
+    PatchedTipoDocumentoPermitido:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 100
+        descripcion:
+          type: string
+        extension_permitida:
+          type: string
+          maxLength: 10
+        obligatorio:
+          type: boolean
+          description: Indica si este documento es de entrega obligatoria
+        entes_permitidos:
+          type: array
+          items:
+            type: integer
+    TipoDocumentoPermitido:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 100
+        descripcion:
+          type: string
+        extension_permitida:
+          type: string
+          maxLength: 10
+        obligatorio:
+          type: boolean
+          description: Indica si este documento es de entrega obligatoria
+        entes_permitidos:
+          type: array
+          items:
+            type: integer
+      required:
+      - entes_permitidos
+      - extension_permitida
+      - id
+      - nombre
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
