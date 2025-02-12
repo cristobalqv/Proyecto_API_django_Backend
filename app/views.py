@@ -1,9 +1,13 @@
 from django.shortcuts import render
 
+# Create your views here.
+
+from django.shortcuts import render
+
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions, IsAdminUser
-from app.api.serializers import DocumentoSerializer, TipoDocumentoPermitidoSerializer
-from app.models import Usuario, Documento, TipoDocumentoPermitido
+from app.api.serializers import DocumentoSerializer, TipoDocumentoPermitidoSerializer, OrganismoSectorialSerializer
+from app.models import Usuario, Documento, TipoDocumentoPermitido, OrganismoSectorial
 # Create your views here.
 
 
@@ -38,3 +42,4 @@ class DocumentoViewSet(viewsets.ModelViewSet):
         return TipoDocumentoPermitido.objects.filter(
             tipo_ente=self.request.user.tipo_ente
         )
+    

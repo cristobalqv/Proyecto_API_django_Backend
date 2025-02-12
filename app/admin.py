@@ -2,11 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 
-from app.models import Usuario, Documento, TipoDocumentoPermitido
+from django.contrib.auth.admin import UserAdmin
+from app.models import Usuario, Documento, TipoDocumentoPermitido, OrganismoSectorial
 
 
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('codigo_ente', 'tipo_ente')
+    list_display = ('username', 'organismo_sectorial', 'autorizado_para_reportes')
 
 
 class DocumentoAdmin(admin.ModelAdmin):
@@ -14,14 +15,16 @@ class DocumentoAdmin(admin.ModelAdmin):
 
 
 class TipoDocumentoPermitidoAdmin(admin.ModelAdmin):     #OJO AQUI
-    list_display = ('get_entes_permitidos', 'nombre', 'extension_permitida')
+    list_display = ('nombre', 'extension_permitida')
+    #'get_organismos_permitidos', 
 
-    def get_entes_permitidos(self, obj):
-        return ", ".join([ente.username for ente in obj.entes_permitidos.all()])
+    def get_organismos_permitidos(self, obj):
+        return ", ".join([org.codigo_ente for org in obj.organismos_permitidos.all()])
     
-    get_entes_permitidos.short_description = "Entes Permitidos"  # Nombre de la columna en el admin
+    get_organismos_permitidos.short_description = "Organismos Permitidos"
 
 
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Documento, DocumentoAdmin)
 admin.site.register(TipoDocumentoPermitido, TipoDocumentoPermitidoAdmin)
+admin.site.register(OrganismoSectorial)
