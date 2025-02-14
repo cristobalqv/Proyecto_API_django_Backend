@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app.apps.AppConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,20 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'OPTIONS': {
+#             'options': '-c search_path=app'     #OPCION PARA CAMBIAR EL ESQUEMA A USAR
+#             },
+#         'NAME': 'proyecto',
+#         'USER': 'postgres',
+#         'PASSWORD': 'jajacsmvolavola',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -85,7 +100,7 @@ DATABASES = {
             },
         'NAME': 'proyecto',
         'USER': 'postgres',
-        'PASSWORD': 'jajacsmvolavola',
+        'PASSWORD': 'a1qs2wd3e!',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -135,9 +150,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-#PARA GENERAR AUTENTICACION CON TOKEN
+#PARA GENERAR AUTENTICACION CON TOKEN / AutoSchema con DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',     #PARA SOLICITUDES CON TOKENS
                                        'rest_framework.authentication.SessionAuthentication',],    #PARA EL NAVEGADOR
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated',],     #SOLO USUARIOS AUTENTICADOS. 
+
+    # Necesario para generar autoSchema con DRF-spectacular
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API Sistema Reportes PPDA',
+    'DESCRIPTION': 'Documentación de API, utilizando Django como Backend para proyecto final, entrega 1 \
+        Paraleo 2 - Grupo2',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
