@@ -1,0 +1,6 @@
+/.venv
+/app/__pycache__
+/app/api/__pycache__
+/app/migrations/__pycache__
+/proyecto/__pycache__
+/reportes/codigoente1/medida1
