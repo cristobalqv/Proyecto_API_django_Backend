@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from app.models import Reporte, Medidas, OrganismoSectorial, Usuario
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
 
 #Aquí validaremos la información entrante para garantizar seguridad e integridad
 
@@ -12,8 +13,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password')
+        autorizado = validated_data.get('autorizado_para_reportes', False)
+
         user = super().create(validated_data)
         user.set_password(password)  # Hash
+
+        # Asignar permiso para crear reportes
+        if autorizado:
+            try:
+                permission = Permission.objects.get(id=35)  # Es el 35 pero podria no serlo, hay que ver otra forma
+                user.user_permissions.add(permission)
+            except Permission.DoesNotExist:
+                raise serializers.ValidationError({"error": "Error al asignar permiso para crear reportes"})
+            
         user.save()
         return user
 
