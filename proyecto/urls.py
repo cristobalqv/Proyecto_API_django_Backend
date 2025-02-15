@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 from app.views import ReporteViewSet, MedidasViewSet, OrganismoSectorialViewSet, UsuarioViewSet
 
 router = routers.DefaultRouter()
@@ -32,4 +33,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),     #permite loguear y desloguear de DRF en la version web
+    path('api/token/', obtain_auth_token, name='api_token_auth'),
 ]

@@ -1,14 +1,21 @@
 from rest_framework import serializers
 from app.models import Reporte, Medidas, OrganismoSectorial, Usuario
+from django.contrib.auth import get_user_model
 
 #Aquí validaremos la información entrante para garantizar seguridad e integridad
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Usuario
-        fields = '__all__'
+        model = get_user_model()
+        fields = ['username', 'password', 'first_name', 'last_name', 'email', 'autorizado_para_reportes', 'organismo_sectorial', 'groups', 'user_permissions']
 
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = super().create(validated_data)
+        user.set_password(password)  # Hash
+        user.save()
+        return user
 
 
 class OrganismoSectorialSerializer(serializers.ModelSerializer):
@@ -39,7 +46,7 @@ class ReporteSerializer(serializers.ModelSerializer):
         tipo_doc = data['tipo_medida']     #data['tipo_medida'] va a contener todos los atributos y metodos, ya que mediante ForeignKey el campo tipo_medida de la clase Reporte contiene TODOS los atributos de la clase Medidas. Se lee de la siguiente forma: <Medidas: id=1, tipo_ente= ... >
 
         # Verificar que el usuario tenga permitido subir este tipo de documento
-        if not tipo_doc.organismos_permitidos.filter(id=usuario.id).exists():
+        if not tipo_doc.organismos_permitidos.filter(id=usuario.organismo_sectorial.id).exists(): 
             raise serializers.ValidationError(
                 {"medida": "Esta medida no está permitida para su usuario."}
             )
