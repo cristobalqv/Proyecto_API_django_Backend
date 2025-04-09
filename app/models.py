@@ -8,23 +8,29 @@ from django.core.exceptions import ValidationError
 
 
 class OrganismoSectorial(models.Model):
-    """Modelo que representa cada organismo sectorial"""
+    """
+    Modelo que representa un organismo sectorial.
 
+    Atributos:
+        tipo_ente (str): Tipo de ente fiscalizador.
+        codigo_ente (str): Código único del ente.
+        region (str): Región asociada (opcional).
+    """
     tipo_ente = models.CharField(
         max_length=100,
-        verbose_name = 'Tipo de ente fiscalizador'
+        verbose_name='Tipo de ente fiscalizador'
     )
 
     codigo_ente = models.CharField(
         max_length=20,
-        unique = True,
-        verbose_name = 'Código del ente'
+        unique=True,
+        verbose_name='Código del ente',
     )
 
     region = models.CharField(
         max_length=100,
         verbose_name='Region',
-        blank=True
+        blank=True,
     )
 
     def __str__(self):
@@ -34,18 +40,27 @@ class OrganismoSectorial(models.Model):
 
 class Usuario(AbstractUser):
     """
-    Modelo de Usuario personalizado que representa un usuario de un organismo sectorial (fiscalizador).
-    Hereda todas las funcionalidades básicas de usuario de Django y añade campos específicos.
+        Modelo de usuario personalizado que extiende AbstractUser.
+
+        Este modelo representa usuarios pertenecientes a organismos sectoriales.
+        Además de los campos estándar de Django, incorpora:
+        - Una relación con el modelo OrganismoSectorial.
+        - Un flag booleano para determinar autorización para reportes.
+        - Redefinición explícita de grupos y permisos con related_name personalizado.
     """
 
     organismo_sectorial = models.ForeignKey(
-        OrganismoSectorial, on_delete=models.CASCADE, 
+        OrganismoSectorial, 
+        on_delete=models.CASCADE, 
         related_name='usuarios',
         null=True,
         blank=True
-        )
+    )
 
-    autorizado_para_reportes = models.BooleanField(default=False)
+    autorizado_para_reportes = models.BooleanField(
+        default=False,
+        help_text="Indica si el usuario tiene autorización para acceder al módulo de reportes"
+    )
 
     # Redefinimos estas relaciones explícitamente
     groups = models.ManyToManyField(
@@ -64,12 +79,15 @@ class Usuario(AbstractUser):
 
 
     class Meta:
+        """
+            Permisos personalizados para el modelo Usuario.
+            Se utilizan para controlar el acceso a funcionalidades específicas del sistema.
+        """
         permissions = [
             ("can_upload_reports", "Puede subir reportes"),
             ("can_view_all_reports", "Puede ver todos los reportes"),
             ("can_view_all_measures", "Puede ver todas las medidas"),
-            ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes"),
-
+            ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes")
         ]
 
     
@@ -83,27 +101,43 @@ def reporte_upload_path(instance, filename):
 class Reporte(models.Model):     #clase que representa cada archivo que se sube al sistema
     """
     Modelo para manejar los reportes subidos por los usuarios asociados a un organismo sectorial.
-    Cada reporte está asociado directamente con el usuario que lo subió.
+
+    Atributos:
+        usuario (Usuario): Usuario que sube el archivo, asociado a un organismo sectorial.
+        tipo_medida (Medidas): Tipo de medida asociada al reporte.
+        archivo (FileField): Archivo subido por el usuario.
+        fecha_subida (DateTime): Fecha en que se subió el archivo.
+        estado (CharField): Estado del reporte (pendiente, aprobado o rechazado).
     """
-    usuario = models.ForeignKey(     #usuario que sube el archivo
+
+    usuario = models.ForeignKey(
         Usuario, 
         on_delete=models.CASCADE, 
-        related_name='reportes'
-        )
+        related_name='reportes',
+        help_text="Usuario que sube el archivo."
+    )
     
-    tipo_medida = models.ForeignKey(     
+    tipo_medida = models.ForeignKey(
         'Medidas',
         on_delete=models.CASCADE,
-        )
+        help_text="Medida asociada al reporte"
+    )
 
-    archivo = models.FileField(     
+    """
+    Por Validar: 
+    custom_validate_file = Funcion validadora. Corchetes ya que validators 
+    espera una lista de funciones validadoras (pueden ser varias y personalizables)
+    """
+    archivo = models.FileField(
         upload_to= reporte_upload_path,
-        # validators=['custom_validate_file']     
-        )
-    '''custom_validate_file = Funcion validadora. Corchetes ya que validators 
-    espera una lista de funciones validadoras (pueden ser varias y personalizables)'''
-
-    fecha_subida=models.DateTimeField(auto_now_add=True)
+        # validators=['custom_validate_file'],
+        help_text="Archivo del reporte a subir"     
+    )
+    
+    fecha_subida=models.DateTimeField(
+        auto_now_add=True,
+        help_text="Fecha en que se sube el archivo",
+    )
 
     estado=models.CharField(
         max_length=20,
@@ -112,40 +146,42 @@ class Reporte(models.Model):     #clase que representa cada archivo que se sube 
             ('APROBADO', 'aprobado'),
             ('RECHAZADO', 'rechazado')
         ],
-        default='PENDIENTE'
+        default='PENDIENTE',
+        help_text="Estado del reporte dentro del sistema",
     )
 
-    def clean(self):     #metodo para validar datos de un formulario
-        # Validar que el usuario pertenezca a un organismo que puede subir este tipo de medida
+    def clean(self):
+        """
+        Validaciones personalizadas del modelo antes de guardar:
+        - Verifica si el organismo puede subir ese tipo de medida.
+        - Verifica si el usuario está autorizado para subir reportes.
+        """
         if not self.tipo_medida.organismos_permitidos.filter(id=self.usuario.organismo_sectorial.id).exists():
             raise ValidationError({
                 'tipo_medida': "Esta medida no está permitido para su organismo sectorial."
-            })
-        
-        # Validar que el usuario esté autorizado para subir reportes
+            }
+        )
         if not self.usuario.autorizado_para_reportes:
             raise ValidationError({
                 'usuario': "Este usuario no está autorizado para generar reportes."
-            })
+            }
+        )
 
     def save(self, *args, **kwargs):
-        self.clean()  # Llamar a la validación antes de guardar
+        """
+            Guardado personalizado que ejecuta las validaciones antes de guardar.
+        """
+        self.clean()
         super().save(*args, **kwargs)
 
+    # ## ESTO ES NUEVO
 
+    # class Meta:
+    #     permissions = [
+    #         ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes"),
+    #     ]
 
-
-        # ## ESTO ES NUEVO
-
-        # class Meta:
-        #     permissions = [
-        #         ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes"),
-        #     ]
-
-        # ##ESTO ES NUEVO
-
-
-
+    # ##ESTO ES NUEVO
 
     def __str__(self):
         return f"{self.usuario.organismo_sectorial.tipo_ente} - {self.tipo_medida.nombre}"
@@ -154,8 +190,17 @@ class Reporte(models.Model):     #clase que representa cada archivo que se sube 
 
 class Medidas(models.Model):     
     """
-    Se define a que Medidas debe dar cuenta cada usuario de org sectorial. Pueden tener formatos compartidos o propios.
-    Ejemplo: "Control emisiones complejo termoelectrico ventanas" solo lo sube Superintendencia electricidad y combustibles
+    Modelo que representa una medida que puede ser reportada por organismos sectoriales.
+
+    Cada medida puede ser de cumplimiento obligatorio y estar asociada a uno o más organismos autorizados.
+    Ejemplo: "Control emisiones complejo termoeléctrico Ventanas" solo lo reporta la Superintendencia de Electricidad y Combustibles.
+
+    Atributos:
+        nombre (str): Nombre identificador de la medida.
+        descripcion (str): Detalles adicionales sobre la medida.
+        extension_permitida (str): Extensión de archivo permitida (ej: .pdf, .xlsx).
+        obligatorio (bool): Define si la medida es de cumplimiento obligatorio.
+        organismos_permitidos (ManyToMany): Organismos que pueden reportar esta medida.
     """
 
     nombre = models.CharField(max_length=100)    
@@ -164,23 +209,25 @@ class Medidas(models.Model):
 
     obligatorio = models.BooleanField(
         default=False,
-        help_text="Indica si esta medida es de entrega obligatoria"
+        help_text="Indica si esta medida es de entrega obligatoria",
     )
 
-    #cada medida puede ser reportada por multiples usuarios
     organismos_permitidos = models.ManyToManyField(
         OrganismoSectorial,
-        related_name='medidas_permitidas'
+        related_name='medidas_permitidas',
+        help_text="Organismos autorizados para reportar esta medida"
     )    
-    
 
     class Meta:
+        """
+            UniqueConstraint impone restricciones de unicidad en uno o mas campos 
+            de la base de datos evitando que se repitan. En este caso, no pueden haber 
+            2 tipos de medidas con el mismo nombre. Campo "nombre" debe ser unico en la tabla
+        """
         constraints = [
             UniqueConstraint(fields=['nombre'], name='unique_tipo_medida')   
         ]     
-        '''UniqueConstraint impone restricciones de unicidad en uno o mas campos 
-        de la base de datos evitando que se repitan. En este caso, no pueden haber 
-        2 tipos de medidas con el mismo nombre. Campo "nombre" debe ser unico en la tabla'''
+        
 
 
     def save(self, *args, **kwargs):
