@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 import os
+from datetime import timedelta
 
 env = environ.Env()
 
@@ -46,8 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'rest_framework',
-    'rest_framework.authtoken',
     'drf_spectacular',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'proyecto.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
@@ -158,14 +157,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #PARA GENERAR AUTENTICACION CON TOKEN / AutoSchema con DRF
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',     #PARA SOLICITUDES CON TOKENS
-                                       'rest_framework.authentication.SessionAuthentication',],    #PARA EL NAVEGADOR
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated',],     #SOLO USUARIOS AUTENTICADOS. 
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.SessionAuthentication',   #PARA EL NAVEGADOR
+                                       'rest_framework.authentication.BasicAuthentication',
+                                       'rest_framework_simplejwt.authentication.JWTAuthentication'],
+                                           
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],  #SOLO USUARIOS AUTENTICADOS. 
+                                #    'rest_framework.permissions.IsAdminUser'],     
 
     # Necesario para generar autoSchema con DRF-spectacular
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     }
 
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=5)
+    }
+
+#DOCUMENTACION
 SPECTACULAR_SETTINGS = {
     'TITLE': 'API Sistema Reportes PPDA',
     'DESCRIPTION': 'Documentación de API, utilizando Django como Backend para proyecto final, entrega 1 \

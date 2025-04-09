@@ -31,12 +31,6 @@ class OrganismoSectorial(models.Model):
         return f"{self.tipo_ente} - {self.codigo_ente}"     
     
 
-    # def clean(self):
-    #     if self.tipo_ente in ['servicio_evaluacion_ambiental', 'intendencia_regional_valparaiso'] and not self.region:
-    #         raise ValidationError({
-    #             'region': "La región es obligatoria para este tipo de organismo"
-    #         })
-
 
 class Usuario(AbstractUser):
     """
@@ -73,6 +67,9 @@ class Usuario(AbstractUser):
         permissions = [
             ("can_upload_reports", "Puede subir reportes"),
             ("can_view_all_reports", "Puede ver todos los reportes"),
+            ("can_view_all_measures", "Puede ver todas las medidas"),
+            ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes"),
+
         ]
 
     
@@ -134,6 +131,21 @@ class Reporte(models.Model):     #clase que representa cada archivo que se sube 
     def save(self, *args, **kwargs):
         self.clean()  # Llamar a la validación antes de guardar
         super().save(*args, **kwargs)
+
+
+
+
+        # ## ESTO ES NUEVO
+
+        # class Meta:
+        #     permissions = [
+        #         ("can_review_reports", "Puede revisar (aprobar/rechazar) reportes"),
+        #     ]
+
+        # ##ESTO ES NUEVO
+
+
+
 
     def __str__(self):
         return f"{self.usuario.organismo_sectorial.tipo_ente} - {self.tipo_medida.nombre}"
