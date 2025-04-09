@@ -118,16 +118,35 @@ Sigue estos pasos para configurar el entorno y ejecutar el proyecto en tu máqui
 **1. Clonar el repositorio**
 
 Clonar el repositorio desde GitHub  https://github.com/cristobalqv/Proyecto_API_django_Backend.git
+   ```bash
+   git clone https://github.com/cristobalqv/Proyecto_API_django_Backend.git
+   ``` 
 
 **2. Crear ambiente virtual**
-
 Clear ambiente virtual dentro de la carpeta del repositorio clonado y activa el entorno virtual.
+## En Windows
+```sh
+python -m venv venv
+venv\Scripts\activate
+```
+
+## En macOS y Linux
+```sh
+python3 -m venv venv
+source venv/bin/activate
+```
 
 **3. Instalar dependencias**
 
-Instalar dependencias ejecutando el comando *pip install -r requirements.txt*
-
-Este archivo incluye Django, Django REST Framework (DRF), psycopg2-binary, Spectacular, y django-environ.
+Instalar dependencias ejecutando el comando:
+```sh
+pip install -r requirements.txt
+```
+Para comprobar que las dependencias se instalaron correctamente, puedes ejecutar:
+```sh
+pip list
+```
+Esto mostrará la lista de paquetes instalados en el entorno virtual. En donde se encontrarán librerias necesarias para el desarrollo de esta solución, tales como: Django, Django REST Framework (DRF), psycopg2-binary, Spectacular, y django-environ.
 
 **4. Crear Base de Datos**
 
