@@ -110,7 +110,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
             "sslmode": "require",
-            'options': '-c search_path=app'     #OPCION PARA CAMBIAR EL ESQUEMA A USAR
+            ##'options': '-c search_path=app'     #OPCION PARA CAMBIAR EL ESQUEMA A USAR
             },
         "NAME": os.environ.get("PGDATABASE"),
         "USER": os.environ.get("PGUSER"),
