@@ -69,7 +69,3 @@ class ReporteSerializer(serializers.ModelSerializer):
         asigna automaticamente el usuario actual"""
         validated_data['usuario'] = self.context['request'].user
         return super().create(validated_data)
-
-
-
-    
