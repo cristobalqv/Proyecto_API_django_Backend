@@ -1,4 +1,4 @@
-# Proyecto Sistema de Reportes PPDA - Entrega Parcial 1
+# Proyecto Sistema de Reportes PPDA - Entrega Parcial 2
 
 ## Desarrollo Back-End Python - Talento Futuro
 ### Grupo 2
