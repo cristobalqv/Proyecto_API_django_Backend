@@ -3,4 +3,6 @@ venv/
 .venv/
 */__pycache__/
 */migrations/
-*.pyc
+.pyc
+reportes/
+**/__pycache__
