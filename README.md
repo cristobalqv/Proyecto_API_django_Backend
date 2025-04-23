@@ -118,9 +118,9 @@ Sigue estos pasos para configurar el entorno y ejecutar el proyecto en tu máqui
 **1. Clonar el repositorio**
 
 Clonar el repositorio desde GitHub  https://github.com/cristobalqv/Proyecto_API_django_Backend.git
-   ```bash
-   git clone https://github.com/cristobalqv/Proyecto_API_django_Backend.git
-   ``` 
+```bash
+git clone https://github.com/cristobalqv/Proyecto_API_django_Backend.git
+``` 
 
 **2. Crear ambiente virtual**
 Clear ambiente virtual dentro de la carpeta del repositorio clonado y activa el entorno virtual.
@@ -151,7 +151,7 @@ Esto mostrará la lista de paquetes instalados en el entorno virtual. En donde s
 **4. Crear Base de Datos**
 
 Para crear la base de datos, crear un archivo llamado *.env*  dentro del directorio del proyecto,con la siguiente estructura:
-```env
+```bash
 DB_NAME=proyecto
 DB_USER=postgres
 DB_PASSWORD="password"
@@ -167,17 +167,20 @@ Crea una base de datos llamada ***proyecto*** en PostgreSQL. Luego, dentro de la
 **6. Aplicar migraciones**
 
 Ejecuta los siguientes comandos para crear las tablas en la base de datos:
-```env
-python manage.py makemigrations*
-python manage.py migrate*
+```bash
+python manage.py makemigrations
+python manage.py migrate
 ```
 **7. Crear superusuario**
 
 Para acceder al panel de administración, crea un superusuario con:
-```env
-python manage.py createsuperuser*
+```bash
+python manage.py createsuperuser
 ```
 **8. Iniciar el servidor**
 
 Finalmente, ejecuta el servidor local con:
--*python manage.py runserver*
+
+```bash
+python manage.py runserver
+```

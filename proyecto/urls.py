@@ -23,6 +23,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 #from DRF-spectacular (documentation)
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+#from DRF-spectacular (documentation)
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 router = routers.DefaultRouter()
 
 
