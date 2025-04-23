@@ -6,3 +6,4 @@ venv/
 .pyc
 reportes/
 **/__pycache__
+schema.yml
