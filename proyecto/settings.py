@@ -198,8 +198,7 @@ SIMPLE_JWT = {
 #DOCUMENTACION
 SPECTACULAR_SETTINGS = {
     'TITLE': 'API Sistema Reportes PPDA',
-    'DESCRIPTION': 'Documentación de API, utilizando Django como Backend para proyecto final, entrega 1 \
-        Paraleo 2 - Grupo2',
+    'DESCRIPTION': 'Documentación de API, utilizando Django Restframework como Backend para proyecto final Paraleo 2 - Grupo2',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
