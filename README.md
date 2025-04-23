@@ -180,6 +180,7 @@ python manage.py createsuperuser
 **8. Iniciar el servidor**
 
 Finalmente, ejecuta el servidor local con:
+
 ```bash
 python manage.py runserver
 ```
