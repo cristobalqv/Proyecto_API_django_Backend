@@ -15,8 +15,8 @@ import environ
 import os
 from datetime import timedelta
 
-env = environ.Env()
 
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,36 +93,41 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 
 
 
+
+
+# Parámetros a probar en entorno local (descomentar)
+# Parámetro relacionado con pytest y archivo pytest.ini
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env('DB_NAME'),
+#         'USER': env('DB_USER'),
+#         'PASSWORD': env('DB_PASSWORD'),
+#         'HOST': env('DB_HOST'),
+#         'PORT': env('DB_PORT'),
 #         'OPTIONS': {
-#             'options': '-c search_path=app'     #OPCION PARA CAMBIAR EL ESQUEMA A USAR
-#             },
-#         'NAME': 'proyecto',
-#         'USER': 'postgres',
-#         'PASSWORD': 'jajacsmvolavola',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
+#             'options': '-c search_path={}'.format('public' if IS_TESTING else 'app')
+#         }
 #     }
 # }
 
+import sys
+IS_TESTING = 'pytest' in sys.argv[0]
+# Parámetros configurados en Neon
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'OPTIONS': {
-            "sslmode": "require",
-            ##'options': '-c search_path=app'     #OPCION PARA CAMBIAR EL ESQUEMA A USAR
-            },
         "NAME": os.environ.get("PGDATABASE"),
         "USER": os.environ.get("PGUSER"),
         "PASSWORD": os.environ.get("PGPASSWORD"),
         "HOST": os.environ.get("PGHOST"),
         "PORT": os.environ.get("PGPORT", 5432),
         "DISABLE_SERVER_SIDE_CURSORS": True,
+        'OPTIONS': {
+            "sslmode": "require"
+            },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -191,8 +196,8 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45),
-    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=5)
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45), #Expiración del token de acceso
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=5),    #Expiración del token de refresh 
     }
 
 #DOCUMENTACION
