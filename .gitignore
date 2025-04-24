@@ -7,3 +7,4 @@ venv/
 reportes/
 **/__pycache__
 schema.yml
+.pytest_cache   
