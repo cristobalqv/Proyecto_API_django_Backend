@@ -1,40 +1,57 @@
-# Proyecto Sistema de Reportes PPDA - Entrega Parcial 2
+# Proyecto Sistema de Reportes PPDA - Entrega Final
 
 ## Desarrollo Back-End Python - Talento Futuro
-### Grupo 2
-- Alexis Quiroz
-- Cristobal Quiroz
-- Estefania Manriquez
-- Oscar Torres
-- Patricio Vera
-- Rodrigo Araya
-- Yerko Gallardo
-- Victor Meza
+### Equipo de trabajo
+<table border="1" style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <td style="width: 50%; height: 120px; text-align: center;">Grupo 2</td>
+    <td style="width: 50%; height: 120px; text-align: center;"></td>
+  </tr>
+  <tr>
+    <td style="width: 50%; height: 120px; text-align: center;">Alexis Quiroz</td>
+    <td style="width: 50%; height: 120px; text-align: center;">Oscar Torres</td>
+  </tr>
+  <tr>
+    <td style="width: 50%; height: 120px; text-align: center;">Cristobal Quiroz</td>
+    <td style="width: 50%; height: 120px; text-align: center;">Patricio Vera</td>
+  </tr>
+  <tr>
+    <td style="width: 50%; height: 120px; text-align: center;">Estefania Manriquez</td>
+    <td style="width: 50%; height: 120px; text-align: center;">Rodrigo Araya</td>
+  </tr>
+  <tr>
+    <td style="width: 50%; height: 120px; text-align: center;">Yerko Gallardo</td>
+    <td style="width: 50%; height: 120px; text-align: center;">Victor Meza</td>
+  </tr>
+</table>
+
+### API disponible en su versión web
+🌲 [Api Backend Python - Grupo2 Paralelo 2](https://proyecto-api-django-backend-hblt.onrender.com/api/)
+
+### Documentación en su versión web:
+📜 [Swagger](https://proyecto-api-django-backend-hblt.onrender.com/api/schema/swagger-ui/)
 
 ### Gestión de Historias de Usuario
-🌲 [Taiga](https://tree.taiga.io/project/pveraicind-clase4-sistemadereportesppda/backlog)
+📋 [Taiga](https://tree.taiga.io/project/pveraicind-clase4-sistemadereportesppda/backlog)
 
-### Documentación
-Una vez iniciado el servidor se puede acceder en el entorno local a:
 
-📋 [Swagger](http://localhost:8000/api/schema/swagger-ui/)
-
-## 1. Problemática
+## Contexto del proyecto:
+### 1. Problemática
 La Superintendencia del Medio Ambiente (SMA) necesita un sistema de reporte que permita a las entidades sectoriales registrar y reportar medidas de avance de los Planes de Prevención y Descontaminación Ambiental (PPDA). La SMA debe poder verificar el estado de avance de estos planes y controlar el cumplimiento de las normativas ambientales del país.
 
-## 2. Objetivos
+### 2. Objetivos
 1. Desarrollar una API RESTful que permita a las entidades sectoriales enviar reportes sobre el estado de cumplimiento de medidas ambientales.
 2. Estandarizar la recopilación de datos sobre el avance de los PPDA para facilitar a la SMA el acceso a estos reportes para fiscalizar y sancionar en caso de incumplimiento.
 
 
-## 3. Stack Tecnológico
+### 3. Stack Tecnológico
 🐍 **Programación:** Python  
 🎯 **Framework:** Django  
 🗄️ **Base de datos:** PostgreSQL  
 📜 **Documentación:** Swagger  
 
 
-## 4. Modelos y su Interacción
+### 4. Modelos y su Interacción
 El sistema maneja cuatro modelos principales:
 
 1. **OrganismoSectorial:** Representa a cada entidad gubernamental encargada de fiscalizar el cumplimiento de normativas ambientales.
@@ -92,7 +109,7 @@ La ruta de almacenamiento del archivo está personalizada según el organismo y 
 - Medida (Reporte.tipo_medida) define qué se está reportando.
 
 
-## 5.  Validaciones:
+### 5.  Validaciones:
 
 - Solo usuarios autorizados pueden subir reportes.
 - Solo pueden subir medidas que su organismo tenga permitidas.
@@ -104,16 +121,16 @@ La ruta de almacenamiento del archivo está personalizada según el organismo y 
 
 Si hay incumplimiento, puede solicitar más información o tomar medidas sancionatorias.
 
-🛠 Ejemplo de flujo:
+##🛠 Ejemplo de flujo:
 
 1. El Ministerio de Energía (OrganismoSectorial) debe reportar sobre el "Consumo de Energía en Termoeléctricas" (Medida).
 2. Un usuario del ministerio sube un reporte en formato PDF.
 3. La Superintendencia revisa el archivo y aprueba o rechaza el cumplimiento
 
 
-# Instalación
+# Instalación API en modo local
 
-Sigue estos pasos para configurar el entorno y ejecutar el proyecto en tu máquina local:
+Sigue estos pasos para configurar el entorno y ejecutar el proyecto en tu **máquina local**:
 
 **1. Clonar el repositorio**
 
@@ -123,13 +140,13 @@ git clone https://github.com/cristobalqv/Proyecto_API_django_Backend.git
 ``` 
 
 **2. Crear ambiente virtual**
+
 Clear ambiente virtual dentro de la carpeta del repositorio clonado y activa el entorno virtual.
 ## En Windows
 ```sh
 python -m venv venv
 venv\Scripts\activate
 ```
-
 ## En macOS y Linux
 ```sh
 python3 -m venv venv
@@ -142,15 +159,17 @@ Instalar dependencias ejecutando el comando:
 ```sh
 pip install -r requirements.txt
 ```
+
 Para comprobar que las dependencias se instalaron correctamente, puedes ejecutar:
+Esto mostrará la lista de paquetes instalados en el entorno virtual. En donde se encontrarán librerias necesarias para el desarrollo de esta solución, tales como: Django, Django REST Framework (DRF), psycopg2-binary, Spectacular, y django-environ.
 ```sh
 pip list
 ```
-Esto mostrará la lista de paquetes instalados en el entorno virtual. En donde se encontrarán librerias necesarias para el desarrollo de esta solución, tales como: Django, Django REST Framework (DRF), psycopg2-binary, Spectacular, y django-environ.
 
 **4. Crear Base de Datos**
 
 Para crear la base de datos, crear un archivo llamado *.env*  dentro del directorio del proyecto,con la siguiente estructura:
+Esto permite configurar las credenciales de la base de datos de forma segura. Recuerda guardar las credenciales de user/password que se generan en tu base de datos.
 ```bash
 DB_NAME=proyecto
 DB_USER=postgres
@@ -158,7 +177,6 @@ DB_PASSWORD="password"
 DB_HOST=localhost
 DB_PORT=5432
 ```
-Esto permite configurar las credenciales de la base de datos de forma segura.
 
 **5. Configurar la base de datos**
 
@@ -171,16 +189,17 @@ Ejecuta los siguientes comandos para crear las tablas en la base de datos:
 python manage.py makemigrations
 python manage.py migrate
 ```
+
 **7. Crear superusuario**
 
 Para acceder al panel de administración, crea un superusuario con:
 ```bash
 python manage.py createsuperuser
 ```
+
 **8. Iniciar el servidor**
 
 Finalmente, ejecuta el servidor local con:
-
 ```bash
 python manage.py runserver
 ```
